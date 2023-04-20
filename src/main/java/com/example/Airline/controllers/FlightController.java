@@ -4,6 +4,7 @@ import com.example.Airline.models.Flight;
 import com.example.Airline.models.Passenger;
 import com.example.Airline.repositories.FlightRepository;
 import com.example.Airline.services.FlightService;
+import com.example.Airline.services.PassengerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,9 @@ public class FlightController {
 
     @Autowired
     FlightService flightService;
+
+    @Autowired
+    PassengerService passengerService;
 
     @GetMapping
     public ResponseEntity<List<Flight>> getAllFlightsAndFilters(
@@ -67,10 +71,11 @@ public class FlightController {
             @RequestParam Long passengerId
     ){
         Optional<Flight> flight = flightService.getFlightById(id);
-        if (!flight.isPresent()){
+        Optional<Passenger> passenger = passengerService.getPassengerById(passengerId);
+        if ((!flight.isPresent()) || (!passenger.isPresent())){
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }else if(flight.get().getPassengers().size() >= flight.get().getCapacity()){
-            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(flight.get(), HttpStatus.NOT_ACCEPTABLE);
         }else {
             return new ResponseEntity<>(flightService.addPassengerToFlight(id, passengerId), HttpStatus.OK);
         }
