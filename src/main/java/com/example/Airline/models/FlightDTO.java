@@ -1,63 +1,32 @@
 package com.example.Airline.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "flights")
-public class Flight {
+public class FlightDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private Long id;
-
-    @Column
     private String destination;
 
-    @Column
     private int capacity;
 
-    @Column(name = "departure_date")
     private LocalDate departureDate;
 
-    @Column(name = "departure_time")
     private LocalTime departureTime;
 
-    @JsonIgnoreProperties({"flights"})
-    @ManyToMany(mappedBy = "flights")
-    private List<Passenger> passengers;
+    private List<Long> passengerIds;
 
-
-    public Flight(String destination, int capacity, LocalDate departureDate, LocalTime departureTime){
+    public FlightDTO(String destination, int capacity, LocalDate departureDate, LocalTime departureTime, List<Long> passengerIds){
         this.destination = destination;
         this.capacity = capacity;
         this.departureDate = departureDate;
         this.departureTime = departureTime;
-        this.passengers = new ArrayList<>();
+        this.passengerIds = passengerIds;
     }
 
-    public Flight(){}
+    public FlightDTO(){}
 
-    public List<Passenger> getPassengers() {
-        return passengers;
-    }
-
-    public void setPassengers(List<Passenger> passengers) {
-        this.passengers = passengers;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getDestination() {
         return destination;
@@ -91,11 +60,11 @@ public class Flight {
         this.departureTime = departureTime;
     }
 
-    public void addPassenger(Passenger passenger){
-        this.passengers.add(passenger);
+    public List<Long> getPassengerIds() {
+        return passengerIds;
     }
 
-    public void removePassenger(Passenger passenger){
-        this.passengers.remove(passenger);
+    public void setPassengerIds(List<Long> passengerIds) {
+        this.passengerIds = passengerIds;
     }
 }

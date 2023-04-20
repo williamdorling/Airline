@@ -23,10 +23,14 @@ public class FlightController {
     public ResponseEntity<List<Flight>> getAllFlightsAndFilters(
             @RequestParam(required = false, name = "destination") String destination
             ){
-        if(destination != null){
-            return new ResponseEntity<>(flightService.findAllFlightsByDestination(destination), HttpStatus.OK);
-        }else {
+        if(destination == null){
             return new ResponseEntity<>(flightService.getAllFlights(), HttpStatus.OK);
+
+        }else if(flightService.findAllFlightsByDestination(destination).isEmpty()){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        else {
+            return new ResponseEntity<>(flightService.findAllFlightsByDestination(destination), HttpStatus.OK);
         }
     }
 
@@ -57,4 +61,18 @@ public class FlightController {
         }
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Flight> addPassengerToFlight(
+            @PathVariable Long id, // flight id
+            @RequestParam Long passengerId
+    ){
+        Optional<Flight> flight = flightService.getFlightById(id);
+        if (!flight.isPresent()){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }else if(flight.get().getPassengers().size() >= flight.get().getCapacity()){
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }else {
+            return new ResponseEntity<>(flightService.addPassengerToFlight(id, passengerId), HttpStatus.OK);
+        }
+    }
 }

@@ -39,13 +39,13 @@ public class PassengerController {
         return new ResponseEntity<>(newPassenger, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<Passenger> addPassengerToFlight(
-            @PathVariable Long id,
-            @RequestParam Long flightId
-    ){
-        Passenger passenger = passengerService.addPassengerToFlight(id, flightId);
-        return new ResponseEntity<>(passenger, HttpStatus.OK);
-    }
+//    @PutMapping(value = "/{id}")
+//    public ResponseEntity<Passenger> addPassengerToFlight(
+//            @PathVariable Long id,
+//            @RequestParam Long flightId
+//    ){
+//        Passenger passenger = passengerService.addPassengerToFlight(id, flightId);
+//        return new ResponseEntity<>(passenger, HttpStatus.OK);
+//    }
 
 }

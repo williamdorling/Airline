@@ -32,21 +32,22 @@ public class PassengerService {
         return passenger;
     }
 
-    public Passenger addPassengerToFlight(Long id, Long flightId) {
-
-//        find flight by flightId
-        Flight flight = flightRepository.findById(flightId).get();
-
-//        find passenger by id
-        Passenger passenger = passengerRepository.findById(id).get();
-
-//        check flight not at capacity
-        if (flight.getPassengers().size() < flight.getCapacity()){
-
-//            add flight to passenger's flights list and save passenger
-            passenger.addFlight(flight);
-            passengerRepository.save(passenger);
-
-        } return passenger;
-    }
+//    public Passenger addPassengerToFlight(Long id, Long flightId) {
+//
+////        find flight by flightId
+//        Flight flight = flightRepository.findById(flightId).get();
+//
+////        find passenger by id
+//        Passenger passenger = passengerRepository.findById(id).get();
+//
+////        check flight not at capacity
+//        if (flight.getPassengers().size() < flight.getCapacity()){
+//
+////            add flight to passenger's flights list and save passenger
+//            passenger.addFlight(flight);
+//            passengerRepository.save(passenger);
+//            flightRepository.save(flight);
+//
+//        } return passenger;
+//    }
 }

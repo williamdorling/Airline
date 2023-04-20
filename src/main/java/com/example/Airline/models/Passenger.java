@@ -76,4 +76,6 @@ public class Passenger {
     public void removeFlight(Flight flight){
         this.flights.remove(flight);
     }
+
+
 }
